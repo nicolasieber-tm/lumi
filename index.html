@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lumi Drive — Fahrschule St. Gallen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   LUMI DRIVE — V2: modern, bold, brutalist-dark
+   =========================================================== */
+:root{
+  --bg:#0A0F0C;
+  --bg-2:#0E1612;
+  --bg-3:#13201A;
+  --ink:#F3EFE3;
+  --ink-2:#D8D4C5;
+  --muted:#7B8881;
+  --line:rgba(243,239,227,.08);
+  --line-2:rgba(243,239,227,.18);
+  --accent:#3FD679;
+  --accent-soft:#9FE9BC;
+  --accent-deep:#1B5E3F;
+  --max:1440px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{border:0;background:0;color:inherit;font:inherit;cursor:pointer}
+.container{max-width:var(--max);margin:0 auto;padding:0 32px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-feature-settings:"ss01","ss02"}
+.display{font-family:"Inter Tight",sans-serif;font-weight:800;letter-spacing:-.045em;line-height:.88}
+.tag{
+  font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.tag .dot{display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-right:8px;vertical-align:middle;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ===================== NAV ===================== */
+.nav{
+  position:fixed;top:18px;left:0;right:0;z-index:80;
+  display:flex;justify-content:center;pointer-events:none;
+}
+.nav-shell{
+  pointer-events:auto;
+  display:flex;align-items:center;gap:32px;
+  background:rgba(10,15,12,.7);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line-2);
+  border-radius:999px;
+  padding:8px 10px 8px 22px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;padding-right:22px;border-right:1px solid var(--line)}
+.nav-logo img{height:26px;filter:brightness(0) invert(1)}
+.nav-logo span{font-family:"Inter Tight";font-weight:700;font-size:14px;letter-spacing:-.01em}
+.nav-menu{display:flex;gap:26px}
+.nav-menu a{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-2);letter-spacing:.04em;text-transform:lowercase;transition:color .2s}
+.nav-menu a:hover{color:var(--accent)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent);color:#0A0F0C;
+  padding:10px 18px 10px 16px;border-radius:999px;
+  font-family:"Inter Tight";font-weight:700;font-size:13px;letter-spacing:-.005em;
+  transition:transform .2s, background .2s;
+}
+.nav-cta:hover{background:#fff;transform:translateY(-1px)}
+.nav-cta svg{width:13px;height:13px}
+@media (max-width:880px){.nav-menu,.nav-logo span{display:none}.nav-logo{border:0;padding-right:8px}}
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative;min-height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:120px 0 56px;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:1;
+  background:url('https://lumidrive.ch/wp-content/uploads/2025/08/lumidrive2025-12.jpg') center/cover no-repeat;
+}
+.hero-bg video{width:100%;height:100%;object-fit:cover;display:block}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(10,15,12,.18) 0%, rgba(10,15,12,.55) 75%),
+    linear-gradient(180deg, rgba(10,15,12,.32) 0%, rgba(10,15,12,.22) 35%, rgba(10,15,12,.85) 100%);
+}
+.hero-grid-overlay{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(243,239,227,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243,239,227,.04) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+.hero-ticker{
+  position:absolute;top:108px;left:0;right:0;z-index:3;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:0 32px;max-width:var(--max);margin:0 auto;
+}
+.hero-ticker .row{display:flex;gap:24px;align-items:center}
+.hero-ticker .sep{width:24px;height:1px;background:var(--line-2)}
+
+.hero-inner{position:relative;z-index:4}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:14px;margin-bottom:48px;
+  font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent-soft);
+  letter-spacing:.16em;text-transform:uppercase;
+  padding:8px 16px;border:1px solid rgba(63,214,121,.3);border-radius:999px;
+  background:rgba(63,214,121,.06);
+}
+.hero-eyebrow::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+
+.hero h1{
+  font-family:"Inter Tight";font-weight:900;
+  font-size:clamp(56px, 10vw, 180px);
+  line-height:.88;letter-spacing:-.05em;
+  margin:0 0 32px;
+  color:var(--ink);
+}
+.hero h1 .line{display:block;position:relative}
+.hero h1 .outline{
+  -webkit-text-stroke:1.5px var(--ink);
+  color:transparent;
+  font-style:italic;
+  font-weight:600;
+}
+.hero h1 .accent-paren{color:var(--accent)}
+.hero h1 .scribble{
+  position:relative;display:inline-block;
+}
+.hero h1 .scribble::after{
+  content:"";position:absolute;left:-2%;bottom:.06em;width:104%;height:.14em;
+  background:var(--accent);transform:skewX(-12deg);
+  z-index:-1;opacity:.55;
+}
+
+.hero-bottom{
+  display:grid;grid-template-columns:1fr auto auto;gap:48px;align-items:end;
+  margin-top:60px;padding-top:40px;border-top:1px solid var(--line);
+}
+.hero-sub{
+  font-family:"Inter";font-size:17px;color:var(--ink-2);max-width:480px;line-height:1.55;
+}
+.hero-sub strong{color:var(--ink);font-weight:600}
+.hero-actions{display:flex;gap:12px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 26px;border-radius:999px;
+  font-family:"Inter Tight";font-weight:700;font-size:14px;letter-spacing:-.005em;
+  cursor:pointer;transition:transform .2s, background .2s, color .2s;
+  white-space:nowrap;
+}
+.btn-primary{background:var(--accent);color:#0A0F0C}
+.btn-primary:hover{background:#fff;transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink);background:rgba(243,239,227,.04)}
+.btn svg{width:14px;height:14px;transition:transform .2s}
+.btn:hover svg{transform:translateX(3px)}
+
+.hero-mini-stat{
+  text-align:right;font-family:"Inter Tight";
+  padding-left:32px;border-left:1px solid var(--line);
+}
+.hero-mini-stat .num{font-size:46px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)}
+.hero-mini-stat .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;margin-top:8px}
+
+@media (max-width:900px){
+  .hero-bottom{grid-template-columns:1fr;gap:32px}
+  .hero-mini-stat{border-left:0;padding-left:0;text-align:left}
+  .hero-ticker{display:none}
+}
+
+/* ===================== MARQUEE ===================== */
+.marquee{
+  background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:28px 0;overflow:hidden;
+}
+.marquee-track{display:flex;gap:64px;animation:marquee 28s linear infinite;white-space:nowrap;width:max-content}
+.marquee-item{
+  display:inline-flex;align-items:center;gap:18px;
+  font-family:"Inter Tight";font-weight:700;font-size:42px;letter-spacing:-.03em;color:var(--ink-2);
+}
+.marquee-item .star{color:var(--accent);font-size:24px;transform:translateY(-4px)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===================== SERVICES ===================== */
+.section{padding:160px 0;position:relative}
+.section-head{
+  display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:end;margin-bottom:96px;
+}
+.section-head .h-eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase}
+.section-head h2{
+  font-family:"Inter Tight";font-weight:800;letter-spacing:-.045em;line-height:.9;
+  font-size:clamp(48px,7vw,128px);margin-top:24px;
+}
+.section-head h2 em{font-style:italic;font-weight:500;color:var(--muted);-webkit-text-stroke:1.5px var(--muted);-webkit-text-fill-color:transparent;color:transparent}
+.section-head .lead{font-size:17px;color:var(--ink-2);max-width:540px;line-height:1.55}
+@media (max-width:900px){.section-head{grid-template-columns:1fr;gap:32px}}
+
+.svc-list{border-top:1px solid var(--line)}
+.svc-row{
+  display:grid;grid-template-columns:90px 1.5fr 1.5fr 1fr 60px;
+  align-items:center;
+  padding:36px 0;border-bottom:1px solid var(--line);
+  cursor:pointer;position:relative;transition:padding .25s ease;
+}
+.svc-row:hover{padding-left:24px;padding-right:24px}
+.svc-row::before{
+  content:"";position:absolute;left:-32px;right:-32px;top:0;bottom:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(63,214,121,.04) 50%, transparent 100%);
+  opacity:0;transition:opacity .25s;pointer-events:none;
+}
+.svc-row:hover::before{opacity:1}
+.svc-row .num{
+  font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);letter-spacing:.1em;
+}
+.svc-row .title{
+  font-family:"Inter Tight";font-weight:700;font-size:clamp(28px,3.5vw,48px);letter-spacing:-.03em;line-height:1;
+}
+.svc-row .title em{font-style:italic;font-weight:500;color:var(--accent-soft)}
+.svc-row .desc{font-size:14px;color:var(--muted);line-height:1.5;max-width:320px}
+.svc-row .meta{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink-2);letter-spacing:.04em}
+.svc-row .arr{
+  width:48px;height:48px;border-radius:50%;border:1px solid var(--line-2);
+  display:flex;align-items:center;justify-content:center;color:var(--ink);
+  transition:background .25s,color .25s,transform .25s;justify-self:end;
+}
+.svc-row:hover .arr{background:var(--accent);color:#0A0F0C;border-color:var(--accent);transform:rotate(-45deg)}
+.svc-row .arr svg{width:18px;height:18px}
+@media (max-width:900px){
+  .svc-row{grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;gap:8px 16px;padding:28px 0}
+  .svc-row .desc{grid-column:1/-1;order:3}
+  .svc-row .meta{grid-column:2;text-align:right;font-size:11px}
+  .svc-row .arr{grid-column:3;grid-row:1/3}
+}
+
+/* ===================== ABOUT ===================== */
+.about{background:var(--bg-2);position:relative;overflow:hidden}
+.about::before{
+  content:"Lumi";
+  position:absolute;top:-40px;left:-40px;
+  font-family:"Inter Tight";font-weight:900;font-size:clamp(180px,28vw,520px);
+  letter-spacing:-.06em;line-height:.8;
+  -webkit-text-stroke:1.5px var(--line-2);color:transparent;
+  pointer-events:none;user-select:none;
+}
+.about-inner{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+.about-media{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg-3)}
+.about-media img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(.9)}
+.about-media::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, transparent 50%, rgba(10,15,12,.5) 100%);
+}
+.about-media .stamp{
+  position:absolute;top:24px;left:24px;
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);
+  letter-spacing:.16em;text-transform:uppercase;
+  border:1px solid rgba(63,214,121,.4);padding:6px 12px;border-radius:999px;
+  background:rgba(10,15,12,.7);backdrop-filter:blur(8px);
+}
+.about-media .crop-label{
+  position:absolute;bottom:24px;left:24px;right:24px;display:flex;justify-content:space-between;
+  font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-2);
+  letter-spacing:.16em;text-transform:uppercase;
+}
+
+.about-text .label{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-bottom:24px;display:block}
+.about-text h2{
+  font-family:"Inter Tight";font-weight:800;letter-spacing:-.045em;line-height:.92;
+  font-size:clamp(40px,5.5vw,86px);margin-bottom:32px;
+}
+.about-text h2 em{font-style:italic;font-weight:500;color:var(--accent)}
+.about-text p{font-size:16px;color:var(--ink-2);line-height:1.65;margin-bottom:20px;max-width:520px}
+.about-meta{margin-top:40px;display:flex;gap:48px;flex-wrap:wrap}
+.about-meta .item .k{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+.about-meta .item .v{font-family:"Inter Tight";font-weight:700;font-size:22px;letter-spacing:-.02em}
+@media (max-width:900px){.about-inner{grid-template-columns:1fr;gap:48px}}
+
+/* ===================== BOOKING ===================== */
+.book{
+  background:var(--accent);color:#0A0F0C;position:relative;overflow:hidden;
+  padding:140px 0;
+}
+.book::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url('https://lumidrive.ch/wp-content/uploads/2025/08/lumidrive2025-32.jpg') center/cover no-repeat;
+  opacity:.18;
+  mix-blend-mode:multiply;
+}
+.book::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(10,15,12,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,15,12,.08) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.book-inner{position:relative;z-index:2}
+.book .label{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0A0F0C;opacity:.6}
+.book h2{
+  font-family:"Inter Tight";font-weight:900;letter-spacing:-.05em;line-height:.85;
+  font-size:clamp(56px,9vw,180px);margin:24px 0 40px;color:#0A0F0C;
+}
+.book h2 em{font-style:italic;font-weight:500}
+.book h2 .arrow{display:inline-block;transform:translateY(-.08em)}
+.book-cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch}
+.btn-dark{background:#0A0F0C;color:var(--accent)}
+.btn-dark:hover{background:#1B2620;color:#fff}
+.btn-outline{background:transparent;color:#0A0F0C;border:1.5px solid #0A0F0C}
+.btn-outline:hover{background:#0A0F0C;color:var(--accent)}
+.book-phone{
+  border:1.5px solid #0A0F0C;border-radius:14px;padding:8px 8px 8px 18px;
+  display:inline-flex;align-items:center;gap:14px;
+  background:rgba(10,15,12,.05);
+  cursor:pointer;transition:background .2s;
+}
+.book-phone:hover{background:rgba(10,15,12,.1)}
+.book-phone .ph-label{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;white-space:nowrap}
+.btn-book-big{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#0A0F0C;color:var(--accent);
+  border:0;cursor:pointer;
+  padding:14px 20px;border-radius:8px;
+  font-family:"Inter Tight";font-weight:700;font-size:14px;letter-spacing:-.005em;
+  transition:transform .2s, background .2s;
+  white-space:nowrap;
+}
+.btn-book-big:hover{background:#1B2620;transform:translateY(-1px)}
+.btn-book-big svg{width:14px;height:14px;flex-shrink:0;transition:transform .2s}
+.btn-book-big:hover svg{transform:translateX(3px)}
+@media (max-width:700px){
+  .book-phone{width:100%;justify-content:space-between}
+}
+
+/* ===================== PREISE (Table-Brutalist) ===================== */
+.prices{background:var(--bg);padding:160px 0}
+.price-section-label{
+  font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px;
+}
+.price-table{border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.price-row{
+  display:grid;grid-template-columns:60px 1.4fr 1fr 1fr 220px;
+  align-items:center;padding:30px 0;border-bottom:1px solid var(--line);
+  transition:padding .2s ease, background .25s;
+  cursor:pointer;
+}
+.price-row:hover{padding-left:20px;background:rgba(63,214,121,.04)}
+.price-row.featured{background:rgba(63,214,121,.07);border-color:rgba(63,214,121,.3)}
+.price-row.featured:hover{background:rgba(63,214,121,.12)}
+.price-row .ix{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted)}
+.price-row .ti{font-family:"Inter Tight";font-weight:700;font-size:clamp(22px,2.4vw,32px);letter-spacing:-.025em;line-height:1.1}
+.price-row .ti small{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-top:6px;text-transform:uppercase}
+.price-row .feature{font-size:13px;color:var(--ink-2);line-height:1.5}
+.price-row .amt{font-family:"Inter Tight";font-weight:800;font-size:clamp(28px,3.2vw,46px);letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.price-row .amt small{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
+.price-row .cta{justify-self:end}
+.price-row .badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10px;background:var(--accent);color:#0A0F0C;padding:3px 8px;border-radius:4px;letter-spacing:.1em;text-transform:uppercase;margin-left:10px;vertical-align:middle;font-weight:600}
+@media (max-width:1000px){
+  .price-row{grid-template-columns:36px 1fr;grid-template-rows:auto auto auto;gap:8px 16px;padding:28px 0}
+  .price-row .feature{grid-column:1/-1;font-size:12px}
+  .price-row .amt{grid-column:1/-1;font-size:32px;margin-top:8px}
+  .price-row .cta{grid-column:1/-1;justify-self:start;margin-top:12px}
+}
+
+/* ===================== PROZESS ===================== */
+.process{background:var(--bg-2);padding:160px 0;position:relative;overflow:hidden}
+.process-track{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:0;
+  position:relative;margin-top:80px;border-top:1px solid var(--line);
+}
+.proc-step{
+  padding:48px 36px 48px 36px;border-right:1px solid var(--line);
+  position:relative;min-height:300px;
+  transition:background .3s;
+}
+.proc-step:first-child{padding-left:0}
+.proc-step:last-child{padding-right:0}
+.proc-step:last-child{border-right:0}
+.proc-step:hover{background:rgba(63,214,121,.03)}
+.proc-step .ix{
+  font-family:"Inter Tight";font-weight:900;font-size:64px;letter-spacing:-.05em;
+  color:rgba(243,239,227,.18);line-height:1;margin-bottom:24px;
+  transition:color .25s;
+}
+.proc-step:hover .ix{color:var(--accent)}
+.proc-step h4{font-family:"Inter Tight";font-weight:700;font-size:18px;letter-spacing:-.01em;margin-bottom:12px}
+.proc-step p{font-size:13px;color:var(--muted);line-height:1.55}
+.proc-step .dot{position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--accent);border-radius:50%}
+@media (max-width:1000px){
+  .process-track{grid-template-columns:repeat(2,1fr)}
+  .proc-step{min-height:auto;padding:32px 24px;border-bottom:1px solid var(--line)}
+  .proc-step:nth-child(2n){border-right:0;padding-right:0}
+  .proc-step:nth-child(2n+1){padding-left:0}
+}
+
+/* ===================== STANDORT ===================== */
+.loc{background:var(--bg);padding:160px 0}
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:stretch}
+.loc-map{
+  position:relative;aspect-ratio:1/1;border:1px solid var(--line-2);overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(63,214,121,.15), transparent 40%),
+    linear-gradient(135deg, var(--bg-2), var(--bg-3));
+}
+.loc-map .grid-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(63,214,121,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,214,121,.08) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.loc-map .roads{position:absolute;inset:0}
+.loc-map .roads path{stroke:rgba(243,239,227,.15);fill:none;stroke-width:1.5}
+.loc-map .roads .main{stroke:rgba(63,214,121,.6);stroke-width:2.5}
+.loc-map .pin{
+  position:absolute;top:48%;left:52%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.loc-map .pin .ring{
+  width:14px;height:14px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 6px rgba(63,214,121,.2), 0 0 0 14px rgba(63,214,121,.1);
+  animation:pulse 2s ease-in-out infinite;
+}
+.loc-map .pin .lab{
+  font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--accent);letter-spacing:.14em;
+  text-transform:uppercase;background:var(--bg);padding:4px 10px;border:1px solid rgba(63,214,121,.4);border-radius:3px;
+}
+.loc-map .corner{position:absolute;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.loc-map .tl{top:18px;left:18px}
+.loc-map .tr{top:18px;right:18px}
+.loc-map .bl{bottom:18px;left:18px}
+.loc-map .br{bottom:18px;right:18px}
+
+.loc-info .label{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase}
+.loc-info h2{
+  font-family:"Inter Tight";font-weight:800;letter-spacing:-.045em;line-height:.92;
+  font-size:clamp(40px,5.5vw,86px);margin:24px 0 32px;
+}
+.loc-info h2 em{font-style:italic;font-weight:500;color:var(--accent)}
+.loc-info p{font-size:16px;color:var(--ink-2);line-height:1.6;max-width:480px;margin-bottom:48px}
+.loc-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.loc-info-grid .cell{padding:24px 24px 24px 0;border-bottom:1px solid var(--line)}
+.loc-info-grid .cell:nth-child(odd){border-right:1px solid var(--line);padding-right:24px;padding-left:0}
+.loc-info-grid .cell:nth-child(even){padding-left:24px}
+.loc-info-grid .k{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.loc-info-grid .v{font-family:"Inter Tight";font-weight:600;font-size:18px;letter-spacing:-.01em;line-height:1.4}
+@media (max-width:900px){.loc-grid{grid-template-columns:1fr;gap:40px}}
+
+/* ===================== FOOTER ===================== */
+.foot{background:var(--bg-2);padding:120px 0 40px;position:relative;overflow:hidden}
+.foot-wordmark{
+  font-family:"Inter Tight";font-weight:900;
+  font-size:clamp(96px,18vw,320px);letter-spacing:-.06em;line-height:.85;
+  margin-bottom:80px;
+  background:linear-gradient(180deg, var(--ink) 0%, var(--ink) 30%, rgba(243,239,227,.12) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.foot-wordmark em{font-style:italic;font-weight:500;color:var(--accent);-webkit-text-fill-color:var(--accent)}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;padding-top:48px;border-top:1px solid var(--line)}
+.foot-brand img{height:36px;filter:brightness(0) invert(1);margin-bottom:20px}
+.foot-brand p{font-size:13.5px;color:var(--muted);line-height:1.6;max-width:320px}
+.foot-col h5{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:10px}
+.foot-col a{font-family:"Inter";font-size:14px;color:var(--ink-2);transition:color .2s}
+.foot-col a:hover{color:var(--accent)}
+.foot-bottom{
+  margin-top:64px;padding-top:32px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;
+}
+.foot-socials{display:flex;gap:10px}
+.foot-socials a{
+  width:36px;height:36px;border:1px solid var(--line-2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);
+  transition:background .2s,border-color .2s;
+}
+.foot-socials a:hover{background:var(--accent);color:#0A0F0C;border-color:var(--accent)}
+@media (max-width:900px){
+  .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .foot-bottom{flex-direction:column;gap:16px;text-align:center}
+}
+@media (max-width:700px){
+  .section,.prices,.process,.loc,.about{padding:96px 0}
+  .book{padding:96px 0}
+}
+
+/* ================== MOBILE OPTIMISATIONS (<= 600px) ================== */
+@media (max-width:600px){
+  /* Container & general */
+  .container{padding:0 20px}
+
+  /* Nav */
+  .nav{top:12px}
+  .nav-shell{padding:6px 8px 6px 16px;gap:10px}
+  .nav-logo img{height:24px}
+  .nav-cta{padding:9px 14px;font-size:12px}
+  .nav-cta .arr-mobile-hide{display:none}
+
+  /* Hero */
+  .hero{min-height:calc(100vh - 0px);padding:120px 0 40px}
+  .hero h1{font-size:clamp(44px, 13vw, 90px);line-height:.92;letter-spacing:-.04em}
+  .hero-eyebrow{font-size:10.5px;padding:7px 12px;margin-bottom:28px}
+  .hero-sub{font-size:15px}
+  .hero-bottom{padding-top:28px;margin-top:36px}
+  .hero-actions{flex-direction:column;align-items:stretch;width:100%}
+  .hero-actions .btn{justify-content:center;width:100%;padding:16px 22px;font-size:14px}
+  .btn{padding:16px 22px;font-size:14px}
+
+  /* Marquee */
+  .marquee{padding:20px 0}
+  .marquee-item{font-size:30px;gap:14px}
+  .marquee-track{gap:48px}
+
+  /* Section-heads */
+  .section-head{margin-bottom:56px}
+  .section-head h2{font-size:clamp(36px,11vw,72px)}
+
+  /* Services */
+  .svc-row{padding:24px 0;gap:6px 14px}
+  .svc-row .title{font-size:clamp(24px,7vw,36px)}
+  .svc-row .desc{font-size:13px}
+  .svc-row .arr{width:40px;height:40px}
+  .svc-row:hover{padding-left:12px;padding-right:12px}
+
+  /* About */
+  .about::before{font-size:clamp(120px,40vw,260px);top:-20px;left:-20px}
+  .about-text h2{font-size:clamp(36px,11vw,68px)}
+  .about-meta{gap:28px}
+  .about-meta .item .v{font-size:18px}
+
+  /* Schnupperstunde */
+  .book h2{font-size:clamp(40px,12vw,90px);line-height:.92}
+  .book-cta-row{flex-direction:column;align-items:stretch;width:100%}
+  .book-cta-row .btn{justify-content:center;width:100%}
+  .book-phone{width:100%;padding:6px 6px 6px 14px}
+  .btn-book-big{flex:1;justify-content:center;font-size:13.5px;padding:13px 16px}
+
+  /* Preise */
+  .price-row{padding:22px 0;grid-template-columns:28px 1fr;gap:6px 12px}
+  .price-row .ti{font-size:20px}
+  .price-row .amt{font-size:28px;margin-top:6px}
+  .price-row .feature{font-size:12px}
+  .price-row:hover{padding-left:12px}
+
+  /* Process — einspaltig */
+  .process-track{grid-template-columns:1fr}
+  .proc-step{min-height:auto;padding:28px 0;border-right:0!important;border-bottom:1px solid var(--line)}
+  .proc-step:last-child{border-bottom:0}
+  .proc-step .ix{font-size:46px;margin-bottom:14px}
+
+  /* Standort */
+  .loc-info h2{font-size:clamp(36px,11vw,64px)}
+  .loc-info-grid{grid-template-columns:1fr}
+  .loc-info-grid .cell{padding:20px 0!important;border-right:0!important}
+  .loc-map{aspect-ratio:1/1}
+
+  /* Footer — einspaltig */
+  .foot-wordmark{font-size:clamp(64px,22vw,180px);margin-bottom:48px}
+  .foot-grid{grid-template-columns:1fr;gap:32px;padding-top:32px}
+  .foot-brand p{max-width:none}
+
+  /* Modal */
+  .modal-overlay{padding:16px 12px}
+  .modal-header h3{font-size:22px}
+  .modal-body{padding:22px 18px}
+  .modal-header{padding:22px 18px 20px}
+  .modal-footer{padding:14px 18px;flex-wrap:wrap}
+  .modal-footer .small-note{width:100%;margin-bottom:8px;margin-right:0}
+  .btn-modal-primary,.btn-modal-ghost{flex:1;justify-content:center}
+}
+
+/* ================== Tiny screens (<= 380px) ================== */
+@media (max-width:380px){
+  .nav-cta{font-size:0;padding:9px 11px}
+  .nav-cta::before{content:"Buchen";font-size:12px}
+  .nav-cta svg{display:none}
+  .hero h1{font-size:42px}
+  .book h2{font-size:38px}
+  .about-text h2{font-size:32px}
+}
+
+/* ===================== MODAL / BOOKING ===================== */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(8,12,10,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:none;align-items:flex-start;justify-content:center;
+  padding:60px 24px;overflow-y:auto;
+  opacity:0;transition:opacity .25s ease;
+}
+.modal-overlay.open{display:flex;opacity:1}
+.modal{
+  background:var(--bg-2);border:1px solid var(--line-2);
+  max-width:680px;width:100%;
+  border-radius:14px;overflow:hidden;
+  transform:translateY(20px);transition:transform .3s ease;
+  position:relative;
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{
+  padding:30px 32px 26px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
+}
+.modal-header .h-label{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;display:block}
+.modal-header h3{font-family:"Inter Tight";font-weight:800;font-size:28px;letter-spacing:-.025em;line-height:1.1;margin-bottom:8px}
+.modal-header .h-price{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink-2);letter-spacing:.04em}
+.modal-close{
+  width:38px;height:38px;border:1px solid var(--line-2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);
+  flex-shrink:0;cursor:pointer;background:transparent;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.modal-close:hover{background:var(--accent);color:#0A0F0C;border-color:var(--accent)}
+.modal-close svg{width:16px;height:16px}
+.modal-body{padding:28px 32px;max-height:60vh;overflow-y:auto}
+.modal-section{margin-bottom:22px}
+.modal-section .form-label{
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;display:block;
+}
+.modal-footer{
+  padding:18px 32px;border-top:1px solid var(--line);
+  display:flex;gap:12px;justify-content:flex-end;align-items:center;
+  background:rgba(0,0,0,.15);
+}
+.modal-footer .small-note{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-right:auto}
+
+.slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot-grid button{
+  background:transparent;color:var(--ink);border:1px solid var(--line);
+  padding:14px 12px;border-radius:8px;cursor:pointer;
+  font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.04em;
+  text-align:left;line-height:1.4;transition:all .2s;font-family:"JetBrains Mono",monospace;
+}
+.slot-grid button .day{display:block;font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.slot-grid button:hover{border-color:var(--accent);background:rgba(63,214,121,.06);color:var(--accent)}
+.slot-grid button.selected{background:var(--accent);color:#0A0F0C;border-color:var(--accent)}
+.slot-grid button.selected .day{color:#0A0F0C;opacity:.7}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-row.single{grid-template-columns:1fr}
+.form-input{
+  width:100%;background:rgba(243,239,227,.04);border:1px solid var(--line);
+  color:var(--ink);padding:14px 16px;border-radius:8px;font-size:14px;
+  font-family:inherit;outline:none;transition:border-color .2s, background .2s;
+}
+.form-input:focus{border-color:var(--accent);background:rgba(63,214,121,.04)}
+.form-input::placeholder{color:var(--muted)}
+textarea.form-input{resize:vertical;min-height:80px;font-family:inherit}
+
+.modal-success{padding:48px 32px;text-align:center}
+.modal-success .check{
+  width:64px;height:64px;border-radius:50%;background:rgba(63,214,121,.12);
+  border:1px solid var(--accent);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 24px;
+}
+.modal-success h4{font-family:"Inter Tight";font-weight:800;font-size:26px;letter-spacing:-.02em;margin-bottom:14px}
+.modal-success p{font-size:14.5px;color:var(--ink-2);line-height:1.6;max-width:400px;margin:0 auto 6px}
+.modal-success .meta{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:24px}
+
+.option-cards{display:grid;grid-template-columns:1fr;gap:10px}
+.option-cards button{
+  width:100%;text-align:left;background:transparent;color:var(--ink);
+  border:1px solid var(--line);padding:20px 22px;border-radius:10px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  transition:all .2s;font-family:inherit;
+}
+.option-cards button:hover{border-color:var(--accent);background:rgba(63,214,121,.05);transform:translateY(-1px)}
+.option-cards .o-info{display:flex;flex-direction:column;gap:6px}
+.option-cards .o-title{font-family:"Inter Tight";font-weight:700;font-size:18px;letter-spacing:-.01em}
+.option-cards .o-sub{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.option-cards .o-price{font-family:"Inter Tight";font-weight:800;font-size:22px;color:var(--accent);letter-spacing:-.02em;text-align:right;flex-shrink:0}
+.option-cards .o-price small{display:block;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);font-weight:400;letter-spacing:.08em;margin-top:3px;text-transform:uppercase}
+
+.info-card{
+  padding:20px 22px;background:rgba(63,214,121,.04);
+  border:1px solid rgba(63,214,121,.15);border-radius:10px;
+}
+.info-card p{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin-bottom:10px}
+.info-card p:last-child{margin-bottom:0}
+.info-card strong{color:var(--ink);font-weight:600}
+
+.summary-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--line);
+  font-size:14px;
+}
+.summary-row:last-child{border-bottom:0;padding-top:18px;font-family:"Inter Tight";font-weight:800;font-size:20px;letter-spacing:-.02em}
+.summary-row .k{color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.summary-row:last-child .k{color:var(--ink);font-family:"Inter Tight";font-weight:800;font-size:20px;letter-spacing:-.02em;text-transform:none}
+.summary-row .v{color:var(--ink);font-weight:600}
+
+.btn-modal-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:#0A0F0C;
+  padding:14px 22px;border-radius:999px;
+  font-family:"Inter Tight";font-weight:700;font-size:13.5px;letter-spacing:-.005em;
+  cursor:pointer;border:0;transition:background .2s, transform .2s;
+}
+.btn-modal-primary:hover{background:#fff;transform:translateY(-1px)}
+.btn-modal-primary:disabled{background:var(--line-2);color:var(--muted);cursor:not-allowed;transform:none}
+.btn-modal-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--ink-2);
+  padding:14px 18px;border-radius:999px;
+  font-family:"Inter Tight";font-weight:600;font-size:13.5px;
+  cursor:pointer;border:1px solid var(--line-2);transition:border-color .2s, color .2s;
+}
+.btn-modal-ghost:hover{border-color:var(--ink);color:var(--ink)}
+
+/* clickable hint on rows */
+.svc-row, .price-row{user-select:none}
+
+@media (max-width:600px){
+  .modal-overlay{padding:24px 14px}
+  .modal-header,.modal-body,.modal-footer{padding-left:22px;padding-right:22px}
+  .slot-grid{grid-template-columns:repeat(2,1fr)}
+  .form-row:not(.single){grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-shell">
+    <a href="#" class="nav-logo">
+      <img src="https://lumidrive.ch/wp-content/uploads/2023/12/Dunkel_Gruen_V4_Lumi_Drive_Logo.png" alt="Lumi Drive">
+      <span>Lumi Drive</span>
+    </a>
+    <div class="nav-menu">
+      <a href="#services">kurse</a>
+      <a href="#about">über mich</a>
+      <a href="#preise">preise</a>
+      <a href="#weg">weg</a>
+      <a href="#kontakt">kontakt</a>
+    </div>
+    <a href="#schnupperstunde" class="nav-cta">
+      Schnupperstunde
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-grid-overlay"></div>
+
+  <div class="hero-ticker">
+    <div class="row">
+      <span><span class="dot" style="display:inline-block;width:6px;height:6px;background:#3FD679;border-radius:50%;margin-right:8px;vertical-align:middle"></span>Lumi Drive · St. Gallen</span>
+      <span class="sep"></span>
+      <span>Kat. B · BPT · BE</span>
+    </div>
+    <div class="row">
+      <span>2026 · v2</span>
+      <span class="sep"></span>
+      <span>info@lumidrive.ch</span>
+    </div>
+  </div>
+
+  <div class="container hero-inner">
+    <div class="hero-eyebrow">Fahrschule seit 2022</div>
+
+    <h1>
+      <span class="line">Der Weg zum</span>
+      <span class="line">
+        <span class="scribble">Fahr<span class="accent-paren">(s)</span>pass.</span>
+      </span>
+    </h1>
+
+    <div class="hero-bottom">
+      <p class="hero-sub">
+        Persönlicher Fahrlehrer in <strong>St. Gallen</strong> für Kategorie B, BPT und BE.
+        Modern, fair, ohne Umwege — vom Nothelferkurs bis zur praktischen Prüfung.
+      </p>
+      <div class="hero-actions">
+        <a href="#schnupperstunde" class="btn btn-primary">
+          Schnupperstunde
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tel:+41791932207" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          079 193 22 07
+        </a>
+      </div>
+      <div class="hero-mini-stat">
+        <div class="num">4&nbsp;Jahre</div>
+        <div class="lbl">on the road</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<section class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Kat. B <span class="star">✦</span></span>
+    <span class="marquee-item">Kat. BPT <span class="star">✦</span></span>
+    <span class="marquee-item">Kat. BE <span class="star">✦</span></span>
+    <span class="marquee-item">Nothelferkurs <span class="star">✦</span></span>
+    <span class="marquee-item">VKU <span class="star">✦</span></span>
+    <span class="marquee-item">Theorie <span class="star">✦</span></span>
+    <span class="marquee-item">Kat. B <span class="star">✦</span></span>
+    <span class="marquee-item">Kat. BPT <span class="star">✦</span></span>
+    <span class="marquee-item">Kat. BE <span class="star">✦</span></span>
+    <span class="marquee-item">Nothelferkurs <span class="star">✦</span></span>
+    <span class="marquee-item">VKU <span class="star">✦</span></span>
+    <span class="marquee-item">Theorie <span class="star">✦</span></span>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="h-eyebrow">// Services</div>
+        <h2>Unsere<br><em>Angebote.</em></h2>
+      </div>
+      <p class="lead">Von der ersten Theoriestunde bis zur Anhängerprüfung — alles aus einer Hand, abgestimmt auf dein Tempo und deine Kategorie.</p>
+    </div>
+
+    <div class="svc-list">
+      <article class="svc-row" data-book="theorie">
+        <div class="num">01 / 06</div>
+        <h3 class="title">Theorie <em>Kat. B & BPT</em></h3>
+        <p class="desc">Theorielektionen à 50 min. Vorbereitung auf die Theorieprüfung.</p>
+        <div class="meta">CHF 60.– / 50 min</div>
+        <div class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </article>
+
+      <article class="svc-row" data-book="nothelfer">
+        <div class="num">02 / 06</div>
+        <h3 class="title">Nothelferkurs</h3>
+        <p class="desc">Pflicht für den Lernfahrausweis. Exklusiv Nothelferausweis CHF 31.–.</p>
+        <div class="meta">CHF 99.–</div>
+        <div class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </article>
+
+      <article class="svc-row" data-book="vku">
+        <div class="num">03 / 06</div>
+        <h3 class="title">VKU</h3>
+        <p class="desc">Verkehrskundeunterricht. Pflicht vor der praktischen Prüfung.</p>
+        <div class="meta">CHF 190.– Aktion</div>
+        <div class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </article>
+
+      <article class="svc-row" data-book="kat-b">
+        <div class="num">04 / 06</div>
+        <h3 class="title">Fahrlektionen <em>Kat. B</em></h3>
+        <p class="desc">Automat & Handschaltung. à 45 Minuten. ABO-Preise verfügbar.</p>
+        <div class="meta">ab CHF 85.– / Lektion</div>
+        <div class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </article>
+
+      <article class="svc-row" data-book="kat-bpt">
+        <div class="num">05 / 06</div>
+        <h3 class="title">Fahrlektionen <em>Kat. BPT</em></h3>
+        <p class="desc">Taxi & Personentransport.</p>
+        <div class="meta">Preis auf Anfrage</div>
+        <div class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </article>
+
+      <article class="svc-row" data-book="kat-be">
+        <div class="num">06 / 06</div>
+        <h3 class="title">Fahrlektionen <em>Kat. BE</em></h3>
+        <p class="desc">Autoanhänger. à 50 Minuten. Schulungsanhänger inklusive.</p>
+        <div class="meta">CHF 130.– / 50 min</div>
+        <div class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section about" id="about">
+  <div class="container about-inner">
+    <div class="about-media">
+      <img src="https://lumidrive.ch/wp-content/uploads/2025/08/lumidrive2025-12.jpg" alt="Fahrlehrer Lumi Drive">
+      <div class="stamp">// Lumi Drive</div>
+      <div class="crop-label">
+        <span>St. Gallen · 47.42°N</span>
+        <span>2026 / 05</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="label">// Über mich</span>
+      <h2>Geduld.<br>Plan.<br><em>Ankommen.</em></h2>
+      <p>Seit 2022 selbstständiger Fahrlehrer. Ich begleite Fahrschülerinnen und Fahrschüler mit Geduld, Fachwissen und Engagement auf dem Weg zum Führerausweis Kategorie B.</p>
+      <p>Mit der Gründung der Lumi Drive GmbH verbinde ich langjährige Erfahrung als Führungskraft mit Leidenschaft fürs sichere, moderne Autofahren.</p>
+      <div class="about-meta">
+        <div class="item">
+          <div class="k">// Selbstständig</div>
+          <div class="v">seit 2022</div>
+        </div>
+        <div class="item">
+          <div class="k">// Kategorien</div>
+          <div class="v">B / BPT / BE</div>
+        </div>
+        <div class="item">
+          <div class="k">// Region</div>
+          <div class="v">St. Gallen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING ============ -->
+<section class="book" id="schnupperstunde">
+  <div class="container book-inner">
+    <div class="label">// Schnupperstunde</div>
+    <h2>Plane<br>deine<br>Schnupperstunde.</h2>
+    <p style="font-size:16px;color:#0A0F0C;opacity:.7;max-width:520px;margin:0 0 32px;line-height:1.55">
+      Treffe deinen Fahrlehrer persönlich. Unverbindlich, ohne Druck — einfach zum Gefühl bekommen.
+    </p>
+    <div class="book-cta-row">
+      <a href="tel:+41791932207" class="btn btn-dark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Jetzt anrufen
+      </a>
+      <a href="mailto:info@lumidrive.ch" class="btn btn-outline">info@lumidrive.ch</a>
+      <div class="book-phone" data-book="schnupper">
+        <span class="ph-label">// Direkt</span>
+        <button type="button" class="btn-book-big">
+          Schnupperstunde buchen
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PREISE ============ -->
+<section class="prices" id="preise">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="h-eyebrow">// Preise</div>
+        <h2>Tolle Preise,<br>die <em>passen.</em></h2>
+      </div>
+      <p class="lead">Transparent ohne Überraschungen. Pakete oder Einzellektionen — du entscheidest. Alle Preise inkl. MwSt.</p>
+    </div>
+
+    <div class="price-section-label">// Fahrlektionen Kat. B — Automat & Handschaltung</div>
+    <div class="price-table">
+      <div class="price-row" data-book="einzel">
+        <div class="ix">001</div>
+        <div class="ti">Einzellektion<small>// Für alle, die weniger als 10 Lektionen beziehen möchten</small></div>
+        <div class="feature">à 45 Minuten · Automat oder Handschaltung</div>
+        <div class="amt">CHF 90.–<small>// pro Lektion</small></div>
+        <div class="cta"><button type="button" class="btn btn-primary">Buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+
+      <div class="price-row featured" data-book="5er">
+        <div class="ix">002</div>
+        <div class="ti">5er-ABO<span class="badge">empfohlen</span><small>// 5 Fahrlektionen à 45 Minuten</small></div>
+        <div class="feature">Gesamtpreis CHF 440.– · CHF 88.– pro Lektion · Ersparnis CHF 10.–</div>
+        <div class="amt">CHF 440.–<small>// 88.– / Lektion</small></div>
+        <div class="cta"><button type="button" class="btn btn-primary">Sichern <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+
+      <div class="price-row" data-book="10er">
+        <div class="ix">003</div>
+        <div class="ti">10er-ABO<small>// 10 Fahrlektionen à 45 Minuten</small></div>
+        <div class="feature">Gesamtpreis CHF 850.– · CHF 85.– pro Lektion · Ersparnis CHF 50.–</div>
+        <div class="amt">CHF 850.–<small>// 85.– / Lektion</small></div>
+        <div class="cta"><button type="button" class="btn btn-primary">Sichern <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+    </div>
+
+    <div class="price-section-label" style="margin-top:64px">// Kurse & Theorie</div>
+    <div class="price-table">
+      <div class="price-row" data-book="theorie">
+        <div class="ix">004</div>
+        <div class="ti">Theorielektionen<small>// Vorbereitung Theorieprüfung</small></div>
+        <div class="feature">à 50 Minuten · Einzel oder in Gruppen</div>
+        <div class="amt">CHF 60.–<small>// à 50 min</small></div>
+        <div class="cta"><button type="button" class="btn btn-primary">Buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+
+      <div class="price-row" data-book="nothelfer">
+        <div class="ix">005</div>
+        <div class="ti">Nothelferkurs<small>// Pflicht für Lernfahrausweis</small></div>
+        <div class="feature">exklusiv Nothelferausweis CHF 31.–</div>
+        <div class="amt">CHF 99.–<small>// Pauschal</small></div>
+        <div class="cta"><button type="button" class="btn btn-primary">Buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+
+      <div class="price-row featured" data-book="vku">
+        <div class="ix">006</div>
+        <div class="ti">Verkehrskunde (VKU)<span class="badge">aktion</span><small>// Aktionspreis statt CHF 220.–</small></div>
+        <div class="feature">Pflicht vor der praktischen Prüfung · 8 Lektionen</div>
+        <div class="amt">CHF 190.–<small>// Aktion · statt 220.–</small></div>
+        <div class="cta"><button type="button" class="btn btn-ghost">Anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+    </div>
+
+    <div class="price-section-label" style="margin-top:64px">// Weitere Kategorien & Pauschalen</div>
+    <div class="price-table">
+      <div class="price-row" data-book="kat-be">
+        <div class="ix">007</div>
+        <div class="ti">Fahrlektionen Kat. BE<small>// Autoanhänger</small></div>
+        <div class="feature">à 50 Minuten · Schulungsanhänger inklusive</div>
+        <div class="amt">CHF 130.–<small>// à 50 min</small></div>
+        <div class="cta"><button type="button" class="btn btn-primary">Buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+
+      <div class="price-row" data-book="begleitung">
+        <div class="ix">008</div>
+        <div class="ti">Begleitung zur Führerprüfung Kat. B<small>// Prüfungstag</small></div>
+        <div class="feature">Persönliche Begleitung am Prüfungstag</div>
+        <div class="amt">CHF 220.–<small>// Pauschal</small></div>
+        <div class="cta"><button type="button" class="btn btn-ghost">Info <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+
+      <div class="price-row" data-book="versicherung">
+        <div class="ix">009</div>
+        <div class="ti">Versicherungs- & Administrativpauschale<small>// einmalig</small></div>
+        <div class="feature">Einmalig bei Anmeldung</div>
+        <div class="amt">CHF 120.–<small>// einmalig</small></div>
+        <div class="cta"><button type="button" class="btn btn-ghost">Info <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROZESS ============ -->
+<section class="process" id="weg">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="h-eyebrow">// Prozess</div>
+        <h2>Der Weg zum<br><em>Führerausweis.</em></h2>
+      </div>
+      <p class="lead">Sechs Schritte, klar gegliedert. Wir gehen sie zusammen — in deinem Tempo, ohne Umwege.</p>
+    </div>
+
+    <div class="process-track">
+      <div class="proc-step">
+        <div class="dot"></div>
+        <div class="ix">01</div>
+        <h4>Nothelferkurs</h4>
+        <p>10 Lektionen Lebensrettung. Pflicht für den Lernfahrausweis.</p>
+      </div>
+      <div class="proc-step">
+        <div class="dot"></div>
+        <div class="ix">02</div>
+        <h4>Lernfahrausweis</h4>
+        <p>Antrag beim Strassenverkehrsamt. Sehtest + Passfoto.</p>
+      </div>
+      <div class="proc-step">
+        <div class="dot"></div>
+        <div class="ix">03</div>
+        <h4>Theorieprüfung</h4>
+        <p>Online-Lernen + Prüfung. Wir bereiten dich gezielt vor.</p>
+      </div>
+      <div class="proc-step">
+        <div class="dot"></div>
+        <div class="ix">04</div>
+        <h4>Fahrlektionen</h4>
+        <p>Praxisstunden bis du dich sicher fühlst. Dein Tempo zählt.</p>
+      </div>
+      <div class="proc-step">
+        <div class="dot"></div>
+        <div class="ix">05</div>
+        <h4>VKU</h4>
+        <p>Verkehrskunde-Unterricht. Pflicht vor der praktischen Prüfung.</p>
+      </div>
+      <div class="proc-step">
+        <div class="dot"></div>
+        <div class="ix">06</div>
+        <h4>Prüfung</h4>
+        <p>Praktische Führerprüfung. Du machst das — wir sind dabei.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STANDORT ============ -->
+<section class="loc" id="kontakt">
+  <div class="container loc-grid">
+    <div class="loc-map">
+      <div class="grid-lines"></div>
+      <svg class="roads" viewBox="0 0 400 400" preserveAspectRatio="none">
+        <path d="M0,180 Q150,140 200,200 T400,260" class="main"/>
+        <path d="M120,0 L180,200 L160,400"/>
+        <path d="M0,280 L400,310"/>
+        <path d="M260,0 Q280,150 220,220 T200,400"/>
+        <path d="M0,80 L400,120"/>
+      </svg>
+      <div class="pin">
+        <div class="ring"></div>
+        <div class="lab">Bahnhofstr. 11</div>
+      </div>
+      <div class="corner tl">// MAP_V2</div>
+      <div class="corner tr">47.4245° N</div>
+      <div class="corner bl">9000 ST. GALLEN</div>
+      <div class="corner br">9.3767° E</div>
+    </div>
+    <div class="loc-info">
+      <div class="label">// Standort</div>
+      <h2>St. Gallen<br><em>& Umgebung.</em></h2>
+      <p>Treffpunkt nach Absprache — flexibel im Grossraum St. Gallen. Schulfahrzeug, Schulungsanhänger und alle Kurse aus einer Hand.</p>
+      <div class="loc-info-grid">
+        <div class="cell">
+          <div class="k">// Adresse</div>
+          <div class="v">Bahnhofstrasse 11<br>9000 St. Gallen</div>
+        </div>
+        <div class="cell">
+          <div class="k">// Telefon</div>
+          <div class="v">079 193 22 07</div>
+        </div>
+        <div class="cell">
+          <div class="k">// E-Mail</div>
+          <div class="v">info@lumidrive.ch</div>
+        </div>
+        <div class="cell">
+          <div class="k">// Erreichbar</div>
+          <div class="v">Nach Vereinbarung</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="container">
+    <div class="foot-wordmark">Lumi<em>Drive.</em></div>
+
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="https://lumidrive.ch/wp-content/uploads/2023/12/Dunkel_Gruen_V4_Lumi_Drive_Logo.png" alt="Lumi Drive">
+        <p>Lumi Drive GmbH — Fahrschule in St. Gallen für Kategorie B, BPT und BE. Persönlich, modern, fair.</p>
+      </div>
+      <div class="foot-col">
+        <h5>// Nav</h5>
+        <ul>
+          <li><a href="#weg">Der Weg</a></li>
+          <li><a href="#services">Kurse</a></li>
+          <li><a href="#preise">Preise</a></li>
+          <li><a href="#about">Über mich</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>// Kurse</h5>
+        <ul>
+          <li><a href="#">Nothelferkurs</a></li>
+          <li><a href="#">Verkehrskunde</a></li>
+          <li><a href="#">Schleuderkurs</a></li>
+          <li><a href="#">Fahrlektionen</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>// Kontakt</h5>
+        <ul>
+          <li><a href="tel:+41791932207">079 193 22 07</a></li>
+          <li><a href="mailto:info@lumidrive.ch">info@lumidrive.ch</a></li>
+          <li>Bahnhofstrasse 11</li>
+          <li>9000 St. Gallen</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <div>© 2025 Lumi Drive GmbH · v2 · St. Gallen</div>
+      <div class="foot-socials">
+        <a href="https://www.facebook.com/lumidrivefahrschulestgallen/" aria-label="Facebook">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+        </a>
+        <a href="https://instagram.com/lumidrive_fahrschule" aria-label="Instagram">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></svg>
+        </a>
+      </div>
+      <div>AGB · Impressum · Datenschutz</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" id="modalPanel"></div>
+</div>
+
+<script>
+  // ---- desktop-only hero video (mobile shows poster) ----
+  (function(){
+    const bg = document.getElementById('heroBg');
+    if(!bg) return;
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const slowConnection = navigator.connection && (navigator.connection.saveData || /2g|slow/.test(navigator.connection.effectiveType||''));
+    if(!isDesktop || reducedMotion || slowConnection) return;
+    const v = document.createElement('video');
+    v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true; v.preload='auto';
+    v.setAttribute('aria-hidden','true');
+    v.poster='https://lumidrive.ch/wp-content/uploads/2025/08/lumidrive2025-12.jpg';
+    v.innerHTML='<source src="https://lumidrive.ch/wp-content/uploads/2025/08/Lumi_Drive_Promo.mp4" type="video/mp4">';
+    bg.appendChild(v);
+    v.play().catch(()=>{});
+  })();
+
+  // ---- smooth scroll ----
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');
+      if(id.length>1){
+        const el=document.querySelector(id);
+        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth'})}
+      }
+    });
+  });
+
+  // ===========================================================
+  //  BOOKING / MODAL SYSTEM
+  // ===========================================================
+  const SERVICES = {
+    'einzel':       { type:'termin',      title:'Einzellektion Kat. B',                 price:'CHF 90.– · à 45 min',       label:'Termin buchen', duration:'45 min', meeting:'Treffpunkt nach Vereinbarung' },
+    '5er':          { type:'bestellung',  title:'5er-ABO Kat. B',                       price:'CHF 440.– · CHF 88.– / Lektion', label:'ABO bestellen', items:'5 Fahrlektionen à 45 Minuten' },
+    '10er':         { type:'bestellung',  title:'10er-ABO Kat. B',                      price:'CHF 850.– · CHF 85.– / Lektion', label:'ABO bestellen', items:'10 Fahrlektionen à 45 Minuten' },
+    'theorie':      { type:'termin',      title:'Theorielektion',                       price:'CHF 60.– · à 50 min',       label:'Termin buchen', duration:'50 min', meeting:'Treffpunkt nach Vereinbarung' },
+    'nothelfer':    { type:'termin',      title:'Nothelferkurs',                        price:'CHF 99.– · inkl. Nothelferausweis CHF 31.–', label:'Termin buchen', duration:'Wochenend-Kurs', meeting:'Kursort wird mit Bestätigung mitgeteilt' },
+    'vku':          { type:'info',        title:'Verkehrskunde (VKU)',                  price:'CHF 190.– · Aktion statt CHF 220.–', label:'Information',
+                      info:'Der VKU wird in Gruppen durchgeführt. Aktuell läuft die Online-Anmeldung über das Backend in Vorbereitung. Bis dahin bitte telefonisch oder per Mail anfragen — ich melde mich mit den nächsten Kursterminen.' },
+    'kat-be':       { type:'termin',      title:'Fahrlektion Kat. BE',                  price:'CHF 130.– · à 50 min',      label:'Termin buchen', duration:'50 min', meeting:'Treffpunkt nach Vereinbarung · Schulungsanhänger inkl.' },
+    'kat-bpt':      { type:'info',        title:'Fahrlektionen Kat. BPT',               price:'Preis auf Anfrage',         label:'Anfrage senden',
+                      info:'Fahrlektionen für Personentransport / Taxi werden individuell vereinbart. Sende eine Anfrage mit deiner aktuellen Situation, ich melde mich mit einem persönlichen Angebot.', allowRequest:true },
+    'begleitung':   { type:'info',        title:'Begleitung zur Führerprüfung Kat. B',  price:'CHF 220.– · Pauschal',      label:'Information',
+                      info:'Persönliche Begleitung am Prüfungstag inklusive Aufwärmlektion vor der Prüfung und Anwesenheit beim Examen. Wird in der Regel mit der/den letzten Fahrlektion(en) gemeinsam geplant.', allowRequest:true },
+    'versicherung': { type:'info',        title:'Versicherungs- & Administrativpauschale', price:'CHF 120.– · einmalig',   label:'Information',
+                      info:'Einmalige Pauschale für administrative Aufwendungen und Versicherung. Wird automatisch mit der ersten Rechnung verrechnet — keine separate Buchung nötig.' },
+    'kat-b':        { type:'choose-b',    title:'Fahrlektionen Kat. B',                 label:'Paket auswählen' },
+    'schnupper':    { type:'termin',      title:'Schnupperstunde',                      price:'Unverbindlich · CHF 90.– (Einzellektion Kat. B)', label:'Termin buchen', duration:'45 min', meeting:'Treffpunkt nach Vereinbarung — lerne deinen Fahrlehrer persönlich kennen' }
+  };
+
+  // ---- slot generator (statische Mock-Slots, nur Vorschau) ----
+  function generateSlots(){
+    const slots=[];
+    const dayNames=['So','Mo','Di','Mi','Do','Fr','Sa'];
+    const times=['09:00','14:00','16:30'];
+    const today=new Date();
+    let added=0;
+    for(let i=1;added<9;i++){
+      const d=new Date(today);
+      d.setDate(today.getDate()+i);
+      if(d.getDay()===0) continue;
+      const lbl=`${dayNames[d.getDay()]} ${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`;
+      times.forEach(t=>{if(added<9){slots.push({day:lbl,time:t});added++}});
+    }
+    return slots;
+  }
+
+  // ---- helpers ----
+  const $modal=document.getElementById('modal');
+  const $panel=document.getElementById('modalPanel');
+  function html(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c])}
+  const closeBtn=`<button class="modal-close" onclick="closeModal()" aria-label="Schliessen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+  const arrSvg=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+
+  function openModal(key){
+    const svc=SERVICES[key];
+    if(!svc){console.warn('unknown service',key);return}
+    if(svc.type==='termin')      renderTermin(key,svc);
+    else if(svc.type==='bestellung') renderBestellung(key,svc);
+    else if(svc.type==='info')   renderInfo(key,svc);
+    else if(svc.type==='choose-b') renderChooseB();
+    $modal.classList.add('open');
+    $modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeModal(){
+    $modal.classList.remove('open');
+    $modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    setTimeout(()=>{$panel.innerHTML=''},250);
+  }
+
+  // ---- TERMIN modal ----
+  function renderTermin(key,svc){
+    const slots=generateSlots();
+    $panel.innerHTML=`
+      <div class="modal-header">
+        <div>
+          <span class="h-label">// Termin buchen</span>
+          <h3>${html(svc.title)}</h3>
+          <div class="h-price">${html(svc.price)}</div>
+        </div>
+        ${closeBtn}
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <span class="form-label">// Verfügbare Termine — Vorschau</span>
+          <div class="slot-grid" id="slots">
+            ${slots.map((s,i)=>`<button type="button" data-slot="${i}"><span class="day">${s.day}</span>${s.time}</button>`).join('')}
+          </div>
+        </div>
+        <div class="modal-section">
+          <span class="form-label">// Deine Daten</span>
+          <div class="form-row">
+            <input class="form-input" id="f_first" placeholder="Vorname" required>
+            <input class="form-input" id="f_last" placeholder="Nachname" required>
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="f_tel" type="tel" placeholder="Telefon" required>
+            <input class="form-input" id="f_mail" type="email" placeholder="E-Mail" required>
+          </div>
+          <div class="form-row single">
+            <textarea class="form-input" id="f_note" placeholder="Notiz (optional) — Treffpunkt, Erfahrung, besondere Wünsche"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="small-note">// Vorschau · keine echte Buchung</span>
+        <button class="btn-modal-ghost" onclick="closeModal()">Abbrechen</button>
+        <button class="btn-modal-primary" id="submit" disabled onclick="submitTermin('${key}')">Termin verbindlich buchen ${arrSvg}</button>
+      </div>`;
+    // slot select
+    $panel.querySelectorAll('.slot-grid button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        $panel.querySelectorAll('.slot-grid button').forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected');
+        $panel.querySelector('#submit').disabled=false;
+      });
+    });
+  }
+
+  // ---- BESTELLUNG modal (ABO) ----
+  function renderBestellung(key,svc){
+    $panel.innerHTML=`
+      <div class="modal-header">
+        <div>
+          <span class="h-label">// ABO bestellen</span>
+          <h3>${html(svc.title)}</h3>
+          <div class="h-price">${html(svc.price)}</div>
+        </div>
+        ${closeBtn}
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <div class="info-card">
+            <p><strong>Was du erhältst:</strong> ${html(svc.items)}. Termine werden individuell mit dir abgestimmt — du musst sie nicht im Voraus festlegen.</p>
+            <p>Nach der Bestellung erhältst du eine Bestätigung per E-Mail und ich melde mich telefonisch zur Terminabsprache der ersten Lektion.</p>
+          </div>
+        </div>
+        <div class="modal-section">
+          <span class="form-label">// Deine Daten</span>
+          <div class="form-row">
+            <input class="form-input" id="f_first" placeholder="Vorname" required>
+            <input class="form-input" id="f_last" placeholder="Nachname" required>
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="f_tel" type="tel" placeholder="Telefon" required>
+            <input class="form-input" id="f_mail" type="email" placeholder="E-Mail" required>
+          </div>
+          <div class="form-row single">
+            <input class="form-input" id="f_addr" placeholder="Strasse / Nr." required>
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="f_plz" placeholder="PLZ" required>
+            <input class="form-input" id="f_ort" placeholder="Ort" required>
+          </div>
+          <div class="form-row single">
+            <textarea class="form-input" id="f_note" placeholder="Notiz (optional)"></textarea>
+          </div>
+        </div>
+        <div class="modal-section">
+          <span class="form-label">// Übersicht</span>
+          <div class="summary-row"><span class="k">Paket</span><span class="v">${html(svc.title)}</span></div>
+          <div class="summary-row"><span class="k">Umfang</span><span class="v">${html(svc.items)}</span></div>
+          <div class="summary-row"><span class="k">Versicherungs- & Adminpauschale (einmalig)</span><span class="v">CHF 120.–</span></div>
+          <div class="summary-row"><span class="k">Gesamt</span><span class="v">${html(svc.price.split(' · ')[0])} + 120.–</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="small-note">// Vorschau · keine echte Bestellung</span>
+        <button class="btn-modal-ghost" onclick="closeModal()">Abbrechen</button>
+        <button class="btn-modal-primary" onclick="submitBestellung('${key}')">Verbindlich bestellen ${arrSvg}</button>
+      </div>`;
+  }
+
+  // ---- INFO modal ----
+  function renderInfo(key,svc){
+    const action=svc.allowRequest
+      ? `<button class="btn-modal-primary" onclick="submitInfo('${key}')">Anfrage senden ${arrSvg}</button>`
+      : `<button class="btn-modal-primary" onclick="closeModal()">Verstanden</button>`;
+    $panel.innerHTML=`
+      <div class="modal-header">
+        <div>
+          <span class="h-label">// Information</span>
+          <h3>${html(svc.title)}</h3>
+          <div class="h-price">${html(svc.price)}</div>
+        </div>
+        ${closeBtn}
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <div class="info-card"><p>${html(svc.info)}</p></div>
+        </div>
+        ${svc.allowRequest?`
+        <div class="modal-section">
+          <span class="form-label">// Anfrage (optional)</span>
+          <div class="form-row">
+            <input class="form-input" id="f_first" placeholder="Vorname">
+            <input class="form-input" id="f_last" placeholder="Nachname">
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="f_tel" type="tel" placeholder="Telefon">
+            <input class="form-input" id="f_mail" type="email" placeholder="E-Mail">
+          </div>
+          <div class="form-row single">
+            <textarea class="form-input" id="f_note" placeholder="Worum geht es?"></textarea>
+          </div>
+        </div>`:''}
+      </div>
+      <div class="modal-footer">
+        ${svc.allowRequest?'<span class="small-note">// Vorschau · keine echte Anfrage</span>':''}
+        <button class="btn-modal-ghost" onclick="closeModal()">Schliessen</button>
+        ${action}
+      </div>`;
+  }
+
+  // ---- choose B: 3 sub-options ----
+  function renderChooseB(){
+    $panel.innerHTML=`
+      <div class="modal-header">
+        <div>
+          <span class="h-label">// Kat. B — Paket wählen</span>
+          <h3>Fahrlektionen Kat. B</h3>
+          <div class="h-price">Automat & Handschaltung · à 45 Minuten</div>
+        </div>
+        ${closeBtn}
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <span class="form-label">// Wähle ein Paket</span>
+          <div class="option-cards">
+            <button onclick="openModal('einzel')">
+              <div class="o-info">
+                <span class="o-title">Einzellektion</span>
+                <span class="o-sub">Für unter 10 Lektionen</span>
+              </div>
+              <div class="o-price">CHF 90.–<small>// pro Lektion</small></div>
+            </button>
+            <button onclick="openModal('5er')">
+              <div class="o-info">
+                <span class="o-title">5er-ABO <span style="font-family:JetBrains Mono;font-size:10px;background:var(--accent);color:#0A0F0C;padding:3px 8px;border-radius:4px;letter-spacing:.1em;text-transform:uppercase;margin-left:8px;vertical-align:middle;font-weight:600">Empfohlen</span></span>
+                <span class="o-sub">5 × 45 min · spare CHF 10.–</span>
+              </div>
+              <div class="o-price">CHF 440.–<small>// 88.– / Lektion</small></div>
+            </button>
+            <button onclick="openModal('10er')">
+              <div class="o-info">
+                <span class="o-title">10er-ABO</span>
+                <span class="o-sub">10 × 45 min · spare CHF 50.–</span>
+              </div>
+              <div class="o-price">CHF 850.–<small>// 85.– / Lektion</small></div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal-ghost" onclick="closeModal()">Abbrechen</button>
+      </div>`;
+  }
+
+  // ---- success state ----
+  function showSuccess(title,msg,ref){
+    $panel.innerHTML=`
+      <div class="modal-header" style="border-bottom:0">
+        <div></div>${closeBtn}
+      </div>
+      <div class="modal-success">
+        <div class="check"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h4>${html(title)}</h4>
+        <p>${html(msg)}</p>
+        <div class="meta">// REF ${ref}</div>
+      </div>
+      <div class="modal-footer">
+        <span class="small-note">// Diese Skizze speichert keine Daten</span>
+        <button class="btn-modal-primary" onclick="closeModal()">Schliessen</button>
+      </div>`;
+  }
+  function refId(){return 'LD-'+Math.random().toString(36).slice(2,8).toUpperCase()}
+
+  function submitTermin(key){
+    const svc=SERVICES[key];
+    const slot=$panel.querySelector('.slot-grid button.selected');
+    const slotTxt=slot?(slot.querySelector('.day').textContent+' · '+slot.lastChild.textContent.trim()):'';
+    showSuccess('Buchung erhalten · Vorschau',
+      `Deine Buchung für ${svc.title} (${slotTxt}) wäre jetzt im Admin-Dashboard sichtbar. In der echten Version erhält der Kunde eine Bestätigungsmail.`,
+      refId());
+  }
+  function submitBestellung(key){
+    const svc=SERVICES[key];
+    showSuccess('Bestellung erhalten · Vorschau',
+      `Deine Bestellung für ${svc.title} (${svc.items}) wäre jetzt im Admin-Dashboard sichtbar. In der echten Version erhält der Kunde eine Bestätigungsmail mit Zahlungsinfos.`,
+      refId());
+  }
+  function submitInfo(key){
+    const svc=SERVICES[key];
+    showSuccess('Anfrage erhalten · Vorschau',
+      `Deine Anfrage zu ${svc.title} wäre jetzt im Admin-Dashboard sichtbar. In der echten Version meldet sich der Fahrlehrer persönlich.`,
+      refId());
+  }
+
+  // ---- delegated click handler ----
+  document.addEventListener('click',e=>{
+    const row=e.target.closest('[data-book]');
+    if(row){
+      const key=row.getAttribute('data-book');
+      // ignore clicks on links/forms inside
+      if(e.target.closest('a[href^="http"], a[href^="tel:"], a[href^="mailto:"]')) return;
+      e.preventDefault();
+      openModal(key);
+    }
+  });
+
+  // close on overlay click + ESC
+  $modal.addEventListener('click',e=>{if(e.target===$modal)closeModal()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$modal.classList.contains('open'))closeModal()});
+</script>
+</body>
+</html>
