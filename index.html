@@ -308,6 +308,8 @@ button{border:0;background:0;color:inherit;font:inherit;cursor:pointer}
   font-size:clamp(56px,9vw,180px);margin:24px 0 40px;color:#0A0F0C;
 }
 .book h2 em{font-style:italic;font-weight:500}
+.book h2 .m-br{display:none}
+@media (max-width:600px){.book h2 .m-br{display:inline}}
 .book h2 .arrow{display:inline-block;transform:translateY(-.08em)}
 .book-cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch}
 .btn-dark{background:#0A0F0C;color:var(--accent)}
@@ -530,11 +532,17 @@ button{border:0;background:0;color:inherit;font:inherit;cursor:pointer}
   .svc-row .arr{width:40px;height:40px}
   .svc-row:hover{padding-left:12px;padding-right:12px}
 
-  /* About */
+  /* About — Bild unter den Texten auf Mobile */
+  .about-inner{display:flex;flex-direction:column;gap:40px}
+  .about-text{order:1}
+  .about-media{order:2;aspect-ratio:4/3;max-height:520px}
   .about::before{font-size:clamp(120px,40vw,260px);top:-20px;left:-20px}
   .about-text h2{font-size:clamp(36px,11vw,68px)}
   .about-meta{gap:28px}
   .about-meta .item .v{font-size:18px}
+
+  /* Services — Kategorie auf eigene Zeile */
+  .svc-row .title em{display:block;margin-top:4px}
 
   /* Schnupperstunde */
   .book h2{font-size:clamp(40px,12vw,90px);line-height:.92}
@@ -761,7 +769,7 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:inherit}
       <span>Kat. B · BPT · BE</span>
     </div>
     <div class="row">
-      <span>2026 · v2</span>
+      <span>2026</span>
       <span class="sep"></span>
       <span>info@lumidrive.ch</span>
     </div>
@@ -919,7 +927,7 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:inherit}
 <section class="book" id="schnupperstunde">
   <div class="container book-inner">
     <div class="label">// Schnupperstunde</div>
-    <h2>Plane<br>deine<br>Schnupperstunde.</h2>
+    <h2>Plane<br>deine<br>Schnupper<span class="m-br"><br></span>stunde.</h2>
     <p style="font-size:16px;color:#0A0F0C;opacity:.7;max-width:520px;margin:0 0 32px;line-height:1.55">
       Treffe deinen Fahrlehrer persönlich. Unverbindlich, ohne Druck — einfach zum Gefühl bekommen.
     </p>
@@ -1197,10 +1205,9 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:inherit}
   (function(){
     const bg = document.getElementById('heroBg');
     if(!bg) return;
-    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const slowConnection = navigator.connection && (navigator.connection.saveData || /2g|slow/.test(navigator.connection.effectiveType||''));
-    if(!isDesktop || reducedMotion || slowConnection) return;
+    if(reducedMotion || slowConnection) return;
     const v = document.createElement('video');
     v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true; v.preload='auto';
     v.setAttribute('aria-hidden','true');
