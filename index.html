@@ -69,7 +69,52 @@ button{border:0;background:0;color:inherit;font:inherit;cursor:pointer}
 }
 .nav-cta:hover{background:#fff;transform:translateY(-1px)}
 .nav-cta svg{width:13px;height:13px}
-@media (max-width:880px){.nav-menu,.nav-logo span{display:none}.nav-logo{border:0;padding-right:8px}}
+.nav-burger{
+  display:none;
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line-2);background:transparent;color:var(--ink);
+  align-items:center;justify-content:center;cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.nav-burger:hover{background:rgba(243,239,227,.05);border-color:var(--ink)}
+.nav-burger span{
+  display:block;width:16px;height:1.5px;background:currentColor;position:relative;
+  transition:transform .25s ease, background .2s ease;
+}
+.nav-burger span::before,.nav-burger span::after{
+  content:"";position:absolute;left:0;width:16px;height:1.5px;background:currentColor;
+  transition:transform .25s ease, top .25s ease;
+}
+.nav-burger span::before{top:-5px}
+.nav-burger span::after{top:5px}
+.nav-burger.open span{background:transparent}
+.nav-burger.open span::before{top:0;transform:rotate(45deg)}
+.nav-burger.open span::after{top:0;transform:rotate(-45deg)}
+
+.nav-mobile{
+  position:fixed;top:74px;left:16px;right:16px;z-index:79;
+  background:rgba(10,15,12,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line-2);border-radius:18px;
+  padding:18px 22px 20px;
+  display:none;flex-direction:column;gap:4px;
+  opacity:0;transform:translateY(-8px);transition:opacity .22s ease, transform .22s ease;
+}
+.nav-mobile.open{display:flex;opacity:1;transform:translateY(0)}
+.nav-mobile a{
+  font-family:"Inter Tight";font-weight:600;font-size:18px;letter-spacing:-.01em;
+  color:var(--ink);padding:12px 4px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-mobile a:last-child{border-bottom:0}
+.nav-mobile a::after{
+  content:"→";font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--muted);
+}
+
+@media (max-width:880px){
+  .nav-menu,.nav-logo span{display:none}
+  .nav-logo{border:0;padding-right:8px}
+  .nav-burger{display:inline-flex}
+}
 
 /* ===================== HERO ===================== */
 .hero{
@@ -754,8 +799,19 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:inherit}
       Schnupperstunde
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Menü" aria-expanded="false" aria-controls="navMobile">
+      <span></span>
+    </button>
   </div>
 </nav>
+
+<div class="nav-mobile" id="navMobile" aria-hidden="true">
+  <a href="#services">Kurse</a>
+  <a href="#about">Über mich</a>
+  <a href="#preise">Preise</a>
+  <a href="#weg">Weg</a>
+  <a href="#kontakt">Kontakt</a>
+</div>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -1215,6 +1271,23 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:inherit}
     v.innerHTML='<source src="https://lumidrive.ch/wp-content/uploads/2025/08/Lumi_Drive_Promo.mp4" type="video/mp4">';
     bg.appendChild(v);
     v.play().catch(()=>{});
+  })();
+
+  // ---- burger menu ----
+  (function(){
+    const burger=document.getElementById('navBurger');
+    const menu=document.getElementById('navMobile');
+    if(!burger||!menu) return;
+    const toggle=(open)=>{
+      const isOpen = open ?? !menu.classList.contains('open');
+      menu.classList.toggle('open',isOpen);
+      burger.classList.toggle('open',isOpen);
+      burger.setAttribute('aria-expanded',isOpen);
+      menu.setAttribute('aria-hidden',!isOpen);
+    };
+    burger.addEventListener('click',()=>toggle());
+    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false)});
   })();
 
   // ---- smooth scroll ----
